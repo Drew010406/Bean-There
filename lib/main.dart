@@ -1,3 +1,4 @@
+import 'package:bean_there/screens.dart/host_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,34 +8,24 @@ void main() {
     debugShowCheckedModeBanner: false,
     home: Scaffold(
       appBar: AppBar(
-        title: Text("Bean There", style: GoogleFonts.dmSans(color: Color.fromARGB(255, 242, 59, 239)),),
-        
-        
-        backgroundColor: Color.fromARGB(255, 255, 239, 255)
+
+        centerTitle: true,
+        toolbarHeight: 70,
+        title: Text(
+          "Bean There", 
+          style: GoogleFonts.dmSans(
+                color: Color.fromARGB(255, 209, 93, 143), 
+                fontWeight: FontWeight.bold,
+                fontSize: 27.0),
+              ),
+            
+        backgroundColor: Color.fromARGB(255, 253, 220, 227)
       ),
-      
-      body: const Home(),
-      
+
+      body: const HostScreen(),
+
     )
 
   ));
-}
-
-class Home extends StatelessWidget {
-  const Home({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.orange,
-      padding: EdgeInsets.all(20),
-      margin: EdgeInsets.fromLTRB(30, 10, 30, 0),
-      child: Text(
-          "Empty Screen",
-          style: GoogleFonts.dmSans(fontWeight: FontWeight.bold, fontSize: 30),
-
-      )
-    );
-  }
 }
 
