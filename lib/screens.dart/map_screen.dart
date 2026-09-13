@@ -26,6 +26,7 @@ class _MapScreenState extends State<MapScreen> {
 
           GoogleMap(
             onMapCreated: _onMapCreated,
+            compassEnabled: false,
             initialCameraPosition: CameraPosition(target: _center, zoom: 15.0),
             zoomControlsEnabled: false,
             mapType: MapType.normal,

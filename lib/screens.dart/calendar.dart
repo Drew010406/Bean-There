@@ -7,7 +7,7 @@ class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
 
   @override
-  State<CalendarScreen> createState() => _CalendarScreenState();
+  State<CalendarScreen> createState() => _CalendarScreenState(); 
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
@@ -15,36 +15,48 @@ class _CalendarScreenState extends State<CalendarScreen> {
   final DateTime _focusedDay = DateTime.now();
   final DateTime _firstDay = DateTime(2026, 1, 6);
   final DateTime _lastDay = DateTime(2040,12,31);
+
+  bool clicked = false;
   DateTime ? _selectedDay;
+
+  final Map<String, (String label,DateTime date, String url)> dateRecord = {
+
+    "Happy Petals" : ("Monthsarry Date", DateTime(2026, 10, 19, 19, 30), "assets/images/happy_petals.jpg"),
+    "Kape sa Harong": ("Monthsarry Date", DateTime(2026, 10, 19, 19, 30), "assets/images/kape_sa_harong.jpg"),
+    "Kape Aldaw": ("Monthsarry Date", DateTime(2026, 10, 19, 19, 30), "assets/images/kafe_aldaw.jpg"),
+    "Kin Coffee": ("Monthsarry Date", DateTime(2026, 10, 19, 19, 30), "assets/images/kafe_aldaw.jpg"),
+    "528 Ilawod": ("Monthsarry Date", DateTime(2026, 10, 19, 19, 30), "assets/images/kafe_aldaw.jpg"),
+    "Random ass cafe": ("Monthsarry Date", DateTime(2026, 10, 19, 19, 30), "assets/images/kafe_aldaw.jpg")
+  };
 
   @override
   Widget build(BuildContext context) {
 
+    var upcomingDates = dateRecord.entries.toList();
+
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 240, 245) ,
 
       body: Stack(
 
         children: [
 
-          Container(color:  const Color.fromARGB(255, 255, 240, 245)),
-
+          //BACKGROUND FILLER FOR THE WHITE BACKGROUND IN THE CALENDAR
           Container(
-            
-            margin: EdgeInsets.fromLTRB(20.0, 76.0, 20.0, 0),
+            margin: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 0),
             height: 380,
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(color: const Color.fromARGB(128, 161, 156, 156), width: 2.0),
-              borderRadius:  BorderRadius.circular(40.0)
+              borderRadius:  BorderRadius.circular(35.0)
             ),
 
           ),
 
+          //CALENDAR LAYOUT
           Container(
-
             margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0),
             padding: EdgeInsets.only(left: 20.0, right: 20.0),
-
             child: TableCalendar(
 
               rowHeight: 45.0,
@@ -68,13 +80,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
               headerStyle: HeaderStyle(
 
-                headerPadding: EdgeInsets.only(top: 30.0),
+                headerPadding: EdgeInsets.only(top: 7.0),
 
                 titleCentered: true,
                 formatButtonVisible: false,
                 titleTextStyle: GoogleFonts.dmSans(
                   color: const Color.fromARGB(255, 220, 74, 123),
                   fontSize: 22.0,
+                  fontWeight: FontWeight.bold
                 ),
 
                 leftChevronMargin: EdgeInsets.only(left: 20.0),
@@ -152,14 +165,124 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
           ),
 
-        ]
-      )
+          //UPCOMING DATES LAYOUT
+          Container(
+          
+            margin: EdgeInsets.only(top: 450, left: 23, right: 19),
+            
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              
+              children: [
+
+                //Header
+                  Text(
+                    "Upcoming Dates",
+                    style: GoogleFonts.dmSans(
+                      color: Colors.black,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                    )
+                  ),
+
+                Expanded(
+
+                  child: ListView.builder(
+                    itemCount: upcomingDates.length,
+                    itemBuilder: (context, index) {
+                      
+                      final date = upcomingDates[index];
+                      final place = date.key;
+                      final description = date.value.$1;
+                      final time = DateFormat('hh:mm a').format(date.value.$2);
+                      final logo = date.value.$3;
+
+                      return Container(
+
+                        margin: EdgeInsets.only(top: 5.0, bottom: 10.0),
+                        height: 90,
+
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: const Color.fromARGB(128, 161, 156, 156), width: 2.0),
+                          borderRadius:  BorderRadius.circular(40.0),
+                        ),
+
+                        child: ListTile(
+
+                          leading: 
+                            CircleAvatar(
+                              radius:35,
+                              backgroundImage: AssetImage(logo),  
+                          ),
+
+                          title: Padding(
+                            padding: EdgeInsets.only(left: 5),
+
+                            child: Text(
+                              place, 
+                              style: GoogleFonts.dmSans(color: Colors.black, fontSize: 23, fontWeight: FontWeight.w500),
+                          ) ,
+                          ),
+
+                          subtitle: Row(
+
+                            children: [
+                              Icon(Icons.schedule, color: Colors.grey),
+                              SizedBox(width: 10,),
+                              Text(
+                                "$description - $time", 
+                                style: GoogleFonts.dmSans(color: const Color.fromARGB(255, 17, 16, 16), fontSize: 16),
+                                
+                              ),
+                            ]
+                            ),
+                          isThreeLine: true,
+                      )
+                      );
+                      
+                    }
+                  ),
+                ) 
+              ]  
+            )
+          ),
+
+          //ADD DATE BUTTON
+          Container(
+
+            margin: EdgeInsets.fromLTRB(340, 650, 10, 10),
+
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                shadowColor: Color.fromARGB(113, 248, 3, 85),
+              ),
+
+              child: FloatingActionButton(
+
+                onPressed: () {},
+                backgroundColor: Color.fromARGB(255, 227, 93, 138),
+
+                elevation: 10,
+                
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50.0)
+                ),
+
+                child: Icon(Icons.add, color: Colors.white, size: 30,)
+                ) ,
+            ),
+
+          )
+        ],
+
+
+      ), 
+
     );
-
   }
-
 }
-
 
 class HeartBorder extends ShapeBorder {
   const HeartBorder();

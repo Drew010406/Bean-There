@@ -1,3 +1,4 @@
+import 'package:bean_there/screens.dart/top_spots.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -20,6 +21,7 @@ class _HostScreenState extends State<HostScreen> {
   final List<Widget> _screens = [
     const MapScreen(),
     const CalendarScreen(),
+    const TopSpotsScreen()
   ];
 
   @override
@@ -31,28 +33,36 @@ class _HostScreenState extends State<HostScreen> {
         children: _screens,
       ), 
 
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: NavigationBarTheme(
 
-        indicatorColor: Color.fromARGB(255, 209, 93, 143),
-        indicatorShape: RoundedRectangleBorder(
+        data: NavigationBarThemeData(
+          indicatorColor: Color.fromARGB(255, 240, 157, 193),
+          overlayColor: WidgetStatePropertyAll(Color.fromARGB(255, 240, 157, 193)),
+          indicatorShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.0)),
-        selectedIndex: _currentIndex,
-        height: 80,
-        backgroundColor: Color.fromARGB(255, 253, 220, 227),
+          height: 80,
+          backgroundColor: Color.fromARGB(255, 253, 220, 227),
+        ),
 
-        onDestinationSelected: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        child: NavigationBar(
 
-        destinations: const [
+          selectedIndex: _currentIndex,
 
-          NavigationDestination(icon: Icon(Symbols.map, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.map, weight: 1000.0, size: 25.0, color: Colors.white), label: "Map"),
-          NavigationDestination(icon: Icon(Symbols.calendar_today, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.calendar_today, weight: 1000.0, size: 25.0, color: Colors.white), label: "Calendar"),
-          NavigationDestination(icon: Icon(Symbols.leaderboard, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.leaderboard, weight: 1000.0, size: 25.0, color: Colors.white), label: "Top Spots")
-        ]
-      ) 
+          onDestinationSelected: (int index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+
+          destinations: const [
+
+            NavigationDestination(icon: Icon(Symbols.map, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.map, weight: 1000.0, size: 25.0, color: Colors.white), label: "Map"),
+            NavigationDestination(icon: Icon(Symbols.calendar_today, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.calendar_today, weight: 1000.0, size: 25.0, color: Colors.white), label: "Calendar"),
+            NavigationDestination(icon: Icon(Symbols.leaderboard, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.leaderboard, weight: 1000.0, size: 25.0, color: Colors.white), label: "Top Spots")
+          ]
+         ) 
+      )  
+      
     );
 
   }
