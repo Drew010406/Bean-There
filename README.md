@@ -1,6 +1,6 @@
 # Bean There
 
-A mobile application made to track me and my girlfriend's dates.
+A mobile application made to save romantic dates.
 
 ## Getting Started
 
