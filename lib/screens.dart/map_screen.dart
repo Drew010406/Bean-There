@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maplibre_gl/maplibre_gl.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MapScreen extends StatefulWidget {
 
@@ -11,12 +12,10 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
 
-  late GoogleMapController mapController;
+  late MapLibreMapController mapController;
   final LatLng _center = const LatLng(13.144167, 123.725763);
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+  final mapLibreKey = dotenv.env["MAP_LIBRE_API_KEY"] ?? "";
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +23,14 @@ class _MapScreenState extends State<MapScreen> {
       body: Stack(
         children: [
 
-          GoogleMap(
-            onMapCreated: _onMapCreated,
+          MapLibreMap(
             compassEnabled: false,
             initialCameraPosition: CameraPosition(target: _center, zoom: 15.0),
-            zoomControlsEnabled: false,
-            mapType: MapType.normal,
-            style: '''[
-                {"featureType": "poi", "stylers": [{"visibility": "off"}]}, 
-                {"featureType": "transit", "stylers": [{"visibility": "off"}]}
-                      ]
-                  '''),
+
+            styleString: mapLibreKey,
+            onMapCreated: (controller) => mapController = controller,
+            myLocationEnabled: true,
+          ),
 
           Positioned(
             top: 20.0,
