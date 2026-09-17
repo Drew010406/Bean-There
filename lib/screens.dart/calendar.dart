@@ -48,7 +48,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(color: const Color.fromARGB(128, 161, 156, 156), width: 2.0),
-              borderRadius:  BorderRadius.circular(35.0)
+              borderRadius:  BorderRadius.circular(35.0),
+              boxShadow: [BoxShadow(color: const Color.fromARGB(128, 161, 156, 156), offset: Offset(0,2))]    
             ),
 
           ),
@@ -207,6 +208,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           color: Colors.white,
                           border: Border.all(color: const Color.fromARGB(128, 161, 156, 156), width: 2.0),
                           borderRadius:  BorderRadius.circular(40.0),
+                          boxShadow: [BoxShadow(color: const Color.fromARGB(128, 161, 156, 156), offset: Offset(0,2),)]
+
                         ),
 
                         child: ListTile(
