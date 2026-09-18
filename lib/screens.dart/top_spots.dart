@@ -31,6 +31,7 @@ class _TopSpotsScreen extends State<TopSpotsScreen> {
 
     return Scaffold(
 
+      backgroundColor: const Color.fromARGB(255, 255, 236, 242),
       body: Column(
 
         children: [
@@ -45,7 +46,6 @@ class _TopSpotsScreen extends State<TopSpotsScreen> {
             child: Column(
 
               spacing: 30,
-
               children: [
 
                 //Favorites header
@@ -94,14 +94,17 @@ class _TopSpotsScreen extends State<TopSpotsScreen> {
                     ),
                   ),
 
-                  borderWidth: 4.0,
+                  borderWidth: 2.5,
 
                   style: ToggleStyle(
                     backgroundColor: const Color.fromARGB(255, 254, 252, 255)
 ,
                     indicatorColor: const Color.fromARGB(255, 255, 132, 173),
                     borderRadius: BorderRadius.circular(50),
-                    borderColor: const Color.fromARGB(197, 245, 238, 238),
+                    borderColor: const Color.fromARGB(128, 161, 156, 156),
+                    boxShadow: [
+                      BoxShadow(color:const Color.fromARGB(128, 161, 156, 156), offset: Offset(0,2)),
+                    ]
                   ),
 
                   animationDuration: Duration(milliseconds: 200),
@@ -114,7 +117,7 @@ class _TopSpotsScreen extends State<TopSpotsScreen> {
               
           //Container for the actual list
           Expanded(
-
+            
             child: ListView.builder(
               
               itemCount: spotRanking.length,
@@ -143,7 +146,7 @@ class _TopSpotsScreen extends State<TopSpotsScreen> {
                   else {
                     return Color.fromARGB(128, 161, 156, 156);
                   }
-                };
+                }
 
                 return Container(
 
