@@ -5,6 +5,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:bean_there/screens.dart/map_screen.dart';
 import 'package:bean_there/screens.dart/calendar.dart';
 
+import'package:bean_there/widgets/custom_icon_navbar.dart';
 
 class HostScreen extends StatefulWidget {
   const HostScreen({super.key});
@@ -29,42 +30,87 @@ class _HostScreenState extends State<HostScreen> {
     return Scaffold(
 
       body: IndexedStack(
+
         index: _currentIndex,
         children: _screens,
-      ), 
+      ),
 
-      bottomNavigationBar: NavigationBarTheme(
 
-        data: NavigationBarThemeData(
-          indicatorColor: Color.fromARGB(255, 240, 157, 193),
-          overlayColor: WidgetStatePropertyAll(Color.fromARGB(255, 240, 157, 193)),
-          indicatorShape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0)),
-          height: 80,
-          backgroundColor: Color.fromARGB(255, 253, 220, 227),
-        ),
-
-        child: NavigationBar(
-
-          selectedIndex: _currentIndex,
-
-          onDestinationSelected: (int index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-
-          destinations: const [
-
-            NavigationDestination(icon: Icon(Symbols.map, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.map, weight: 1000.0, size: 25.0, color: Colors.white), label: "Map"),
-            NavigationDestination(icon: Icon(Symbols.calendar_today, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.calendar_today, weight: 1000.0, size: 25.0, color: Colors.white), label: "Calendar"),
-            NavigationDestination(icon: Icon(Symbols.leaderboard, weight: 1000.0, size: 25.0,), selectedIcon: Icon(Symbols.leaderboard, weight: 1000.0, size: 25.0, color: Colors.white), label: "Top Spots")
-          ]
-         ) 
-      )  
       
+      bottomNavigationBar: Container(
+
+        decoration: BoxDecoration(
+
+          border: Border(
+            top: BorderSide(color: const Color.fromARGB(255, 255, 236, 242), width: 4),
+
+          ),
+
+          borderRadius: BorderRadiusDirectional.circular(30),
+
+          color: const Color.fromARGB(255, 255, 236, 242),
+          //shadowColor: const Color.fromARGB(255, 240, 207, 217),
+
+          boxShadow: [
+            BoxShadow(color: const Color.fromARGB(255, 240, 207, 217), offset: Offset(0, -4))
+          ]
+        ),
+        
+
+        child: NavigationBarTheme(
+
+          data: NavigationBarThemeData(
+            
+            indicatorColor: Colors.transparent,
+            overlayColor: WidgetStatePropertyAll(Colors.transparent),
+            
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(30),
+            ),
+
+            labelPadding: EdgeInsets.all(10),
+            height: 75,
+            backgroundColor: Colors.transparent,
+
+          ),
+
+          child: NavigationBar(
+
+            selectedIndex: _currentIndex,
+
+            animationDuration: Duration(microseconds: 300),
+
+            onDestinationSelected: (int index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+
+            destinations: [
+              NavigationDestination(
+                icon: buildIconWithLabel(Symbols.map, "Map", false),
+                selectedIcon: buildIconWithLabel(Symbols.map, "Map", true),
+                label: "Map"
+              ),
+
+              NavigationDestination(
+                icon: buildIconWithLabel(Symbols.calendar_today, "Calendar", false),
+                selectedIcon: buildIconWithLabel(Symbols.calendar_today, "Calendar", true),
+                label: "Calendar"
+              ),
+
+              NavigationDestination(
+                icon: buildIconWithLabel(Symbols.leaderboard, "Favorites", false),
+                selectedIcon: buildIconWithLabel(Symbols.leaderboard, "Favorites", true),
+                label: "Top Spots"
+              )
+            ]
+
+          ) 
+        )  
+      )
     );
-
   }
-
 }
