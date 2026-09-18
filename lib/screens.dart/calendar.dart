@@ -47,9 +47,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
             height: 380,
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border.all(color: const Color.fromARGB(128, 161, 156, 156), width: 2.0),
+              border: Border.all(color: const Color.fromARGB(128, 161, 156, 156), width: 3.0),
               borderRadius:  BorderRadius.circular(35.0),
-              boxShadow: [BoxShadow(color: const Color.fromARGB(128, 161, 156, 156), offset: Offset(0,2))]    
+              boxShadow: [BoxShadow(color: const Color.fromARGB(128, 161, 156, 156), offset: Offset(0,3))]    
             ),
 
           ),
@@ -100,6 +100,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
 
               calendarStyle: CalendarStyle(
+                markersAlignment: Alignment.center,
+                
 
                 cellMargin: EdgeInsets.all(5.0),
                 todayDecoration: ShapeDecoration(
@@ -170,10 +172,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
           Container(
           
             margin: EdgeInsets.only(top: 450, left: 23, right: 19),
-            
+
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              
               children: [
 
                 //Header
@@ -288,7 +290,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
 }
 
 class HeartBorder extends ShapeBorder {
-  const HeartBorder();
+  final double widthFactor; // smaller = wider/fatter heart (try 0.05–0.15)
+
+  const HeartBorder({this.widthFactor = 0.08});
 
   @override
   EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
@@ -305,32 +309,34 @@ class HeartBorder extends ShapeBorder {
     final height = rect.height;
     final left = rect.left;
     final top = rect.top;
+    final lobe = widthFactor;
+    final innerLobe = 0.30 + (0.15 - lobe); // keeps the dip curve proportional as lobe changes
 
     // Start at the top center dip of the heart
-    path.moveTo(left + width * 0.5, top + height * 0.28);
+    path.moveTo(left + width * 0.5, top + height * 0.3);
 
-    // Narrow top-left lobe and left curve down to the bottom point
+    // Left lobe and left curve down to the bottom point
     path.cubicTo(
-      left + width * 0.5, top + height * 0.08,  // Control point 1 (lifts top center)
-      left + width * 0.15, top + height * 0.05, // Control point 2 (narrower outer left edge)
-      left + width * 0.15, top + height * 0.42, // End point of the left lobe
+      left + width * 0.5, top + height * 0.08,
+      left + width * lobe, top + height * 0.05,
+      left + width * lobe, top + height * 0.4,
     );
     path.cubicTo(
-      left + width * 0.15, top + height * 0.65, // Control point 1 (slender left flank)
-      left + width * 0.35, top + height * 0.85, // Control point 2 (guides down to tip)
-      left + width * 0.5, top + height,         // Bottom tip of the heart
+      left + width * lobe, top + height * 0.65,
+      left + width * innerLobe, top + height * 0.85,
+      left + width * 0.5, top + height,
     );
 
-    // Narrow right curve up from the bottom tip to the top-right lobe
+    // Right curve up from the bottom tip to the right lobe
     path.cubicTo(
-      left + width * 0.65, top + height * 0.85, // Control point 1 (guides up from tip)
-      left + width * 0.85, top + height * 0.65, // Control point 2 (slender right flank)
-      left + width * 0.85, top + height * 0.42, // End point of the right lobe
+      left + width * (1 - innerLobe), top + height * 0.85,
+      left + width * (1 - lobe), top + height * 0.65,
+      left + width * (1 - lobe), top + height * 0.4,
     );
     path.cubicTo(
-      left + width * 0.85, top + height * 0.05, // Control point 1 (narrower outer right edge)
-      left + width * 0.5, top + height * 0.08,  // Control point 2 (lifts top center)
-      left + width * 0.5, top + height * 0.28,  // Returns cleanly to the center dip
+      left + width * (1 - lobe), top + height * 0.05,
+      left + width * 0.5, top + height * 0.08,
+      left + width * 0.5, top + height * 0.3,
     );
 
     path.close();
@@ -343,5 +349,5 @@ class HeartBorder extends ShapeBorder {
   }
 
   @override
-  ShapeBorder scale(double t) => const HeartBorder();
+  ShapeBorder scale(double t) => HeartBorder(widthFactor: widthFactor);
 }
